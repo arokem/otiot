@@ -30,10 +30,20 @@ Then open <http://localhost:8000>.
 
 ## Deploy to GitHub Pages
 
+### Option A: GitHub Actions (recommended)
+
+This repo includes `.github/workflows/deploy-pages.yml`.
+
+1. Push this repository to GitHub (branch `main`).
+2. In **Settings → Pages**, set **Source** to **GitHub Actions**.
+3. Push to `main` (or run the workflow manually from the **Actions** tab). The site will be published at the URL shown by GitHub Pages.
+
+### Option B: Deploy from a branch
+
 1. Push this repository to GitHub.
 2. In **Settings → Pages**, set **Source** to “Deploy from a branch”.
-3. Choose branch **`main`** (or your default) and folder **`/ (root)`**.
-4. Save. Your site will be published at the URL shown by GitHub Pages.
+3. Choose branch **`main`** and folder **`/ (root)`**.
+4. Save.
 
 All paths are relative, so the site works from the Pages root URL.
 
