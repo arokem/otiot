@@ -4,10 +4,11 @@ Standalone static web app (GitHub Pages–friendly) to practice Hebrew letter re
 
 ## Features (MVP)
 
-- Two modes:
+- Three modes:
+  - **Letters + nikud** (default): generated combinations of letter forms with a teaching set of niqqud marks.
   - **Letters only**: base Hebrew letters + final forms.
-  - **Letters + nikud**: generated combinations of letter forms with a teaching set of niqqud marks.
-- Flashcards: large Hebrew display, **Play pronunciation** (Web Speech API, `he-IL`), **Next**, **Shuffle**.
+  - **Words**: ~300 common single Hebrew words; reveal shows English + transliteration, **Play** speaks Hebrew (`he-IL`).
+- Flashcards: large Hebrew display, **Reveal answer**, **Play pronunciation** (Web Speech API), **Next**, **Shuffle**.
 - Mobile-first, touch-friendly UI.
 
 ## Run locally

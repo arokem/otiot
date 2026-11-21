@@ -23,12 +23,16 @@
       <button type="button" class="mode-btn" role="tab" id="btn-mode-letters" aria-selected="false" data-mode="letters">
         Letters only
       </button>
+      <button type="button" class="mode-btn" role="tab" id="btn-mode-words" aria-selected="false" data-mode="words">
+        Words
+      </button>
     </div>
 
     <main class="card-area" aria-live="polite">
       <div class="card" id="card">
         <div class="card-hebrew" id="card-display" lang="he" dir="rtl">א</div>
         <div class="card-label is-hidden" id="card-label">Aleph</div>
+        <div class="card-translit is-hidden" id="card-translit"></div>
       </div>
       <p class="card-meta" id="card-meta">Card <span id="card-index">1</span> of <span id="card-total">1</span></p>
     </main>

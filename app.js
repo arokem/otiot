@@ -41,16 +41,23 @@
     const card = getCurrentCard();
     const displayEl = document.getElementById('card-display');
     const labelEl = document.getElementById('card-label');
+    const translitEl = document.getElementById('card-translit');
     const indexEl = document.getElementById('card-index');
     const totalEl = document.getElementById('card-total');
     const btnSpeak = document.getElementById('btn-speak');
     const btnNext = document.getElementById('btn-next');
     const btnReveal = document.getElementById('btn-reveal');
+    const cardEl = document.getElementById('card');
 
     if (!card) {
       displayEl.textContent = '—';
       labelEl.textContent = 'No cards loaded.';
       labelEl.classList.remove('is-hidden');
+      if (translitEl) {
+        translitEl.textContent = '';
+        translitEl.classList.add('is-hidden');
+      }
+      if (cardEl) cardEl.classList.remove('card--words');
       indexEl.textContent = '0';
       totalEl.textContent = '0';
       btnSpeak.disabled = true;
@@ -60,7 +67,21 @@
     }
 
     displayEl.textContent = card.display;
-    labelEl.textContent = card.label || '';
+    if (card.mode === 'words') {
+      labelEl.textContent = card.label || '';
+      if (translitEl) {
+        translitEl.textContent = card.translit || '';
+        translitEl.classList.toggle('is-hidden', !state.revealed);
+      }
+      if (cardEl) cardEl.classList.add('card--words');
+    } else {
+      labelEl.textContent = card.label || '';
+      if (translitEl) {
+        translitEl.textContent = '';
+        translitEl.classList.add('is-hidden');
+      }
+      if (cardEl) cardEl.classList.remove('card--words');
+    }
     labelEl.classList.toggle('is-hidden', !state.revealed);
     indexEl.textContent = String(state.index + 1);
     totalEl.textContent = String(state.deck.length);
@@ -91,11 +112,16 @@
   function updateModeButtons() {
     const btnNikud = document.getElementById('btn-mode-nikud');
     const btnLetters = document.getElementById('btn-mode-letters');
+    const btnWords = document.getElementById('btn-mode-words');
     const isNikud = state.mode === 'nikud';
+    const isLetters = state.mode === 'letters';
+    const isWords = state.mode === 'words';
     btnNikud.classList.toggle('is-active', isNikud);
-    btnLetters.classList.toggle('is-active', !isNikud);
+    btnLetters.classList.toggle('is-active', isLetters);
+    btnWords.classList.toggle('is-active', isWords);
     btnNikud.setAttribute('aria-selected', isNikud ? 'true' : 'false');
-    btnLetters.setAttribute('aria-selected', !isNikud ? 'true' : 'false');
+    btnLetters.setAttribute('aria-selected', isLetters ? 'true' : 'false');
+    btnWords.setAttribute('aria-selected', isWords ? 'true' : 'false');
   }
 
   function nextCard() {
@@ -164,6 +190,9 @@
     });
     document.getElementById('btn-mode-letters').addEventListener('click', function () {
       setMode('letters');
+    });
+    document.getElementById('btn-mode-words').addEventListener('click', function () {
+      setMode('words');
     });
     document.getElementById('btn-speak').addEventListener('click', speakCurrent);
     document.getElementById('btn-reveal').addEventListener('click', function () {
