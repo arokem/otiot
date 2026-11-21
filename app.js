@@ -5,6 +5,7 @@
     mode: 'nikud', // 'nikud' | 'letters'
     deck: [],
     index: 0,
+    revealed: false,
   };
 
   function shuffleArray(arr) {
@@ -44,22 +45,27 @@
     const totalEl = document.getElementById('card-total');
     const btnSpeak = document.getElementById('btn-speak');
     const btnNext = document.getElementById('btn-next');
+    const btnReveal = document.getElementById('btn-reveal');
 
     if (!card) {
       displayEl.textContent = '—';
       labelEl.textContent = 'No cards loaded.';
+      labelEl.classList.remove('is-hidden');
       indexEl.textContent = '0';
       totalEl.textContent = '0';
       btnSpeak.disabled = true;
       btnNext.disabled = true;
+      btnReveal.disabled = true;
       return;
     }
 
     displayEl.textContent = card.display;
     labelEl.textContent = card.label || '';
+    labelEl.classList.toggle('is-hidden', !state.revealed);
     indexEl.textContent = String(state.index + 1);
     totalEl.textContent = String(state.deck.length);
     btnNext.disabled = state.deck.length <= 1;
+    btnReveal.disabled = state.revealed;
     updateSpeakButtonState();
   }
 
@@ -77,6 +83,7 @@
     state.mode = mode;
     state.deck = buildDeck(mode);
     state.index = 0;
+    state.revealed = false;
     render();
     updateModeButtons();
   }
@@ -100,6 +107,7 @@
       state.deck = shuffleArray(state.deck);
       state.index = 0;
     }
+    state.revealed = false;
     render();
   }
 
@@ -109,6 +117,7 @@
     }
     state.deck = shuffleArray(state.deck);
     state.index = 0;
+    state.revealed = false;
     render();
   }
 
@@ -157,6 +166,10 @@
       setMode('letters');
     });
     document.getElementById('btn-speak').addEventListener('click', speakCurrent);
+    document.getElementById('btn-reveal').addEventListener('click', function () {
+      state.revealed = true;
+      render();
+    });
     document.getElementById('btn-next').addEventListener('click', nextCard);
     document.getElementById('btn-shuffle').addEventListener('click', shuffleDeck);
   }

@@ -118,6 +118,10 @@ body {
   font-weight: 500;
 }
 
+.card-label.is-hidden {
+  visibility: hidden;
+}
+
 .card-meta {
   margin: 0.75rem 0 0;
   font-size: 0.85rem;
