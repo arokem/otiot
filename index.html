@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Otiot — Hebrew letters practice</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1 class="title">אוֹתִיּוֹת</h1>
+      <p class="subtitle">Practice Hebrew letters and nikud</p>
+    </header>
+
+    <div class="mode-toggle" role="tablist" aria-label="Practice mode">
+      <button type="button" class="mode-btn is-active" role="tab" id="btn-mode-nikud" aria-selected="true" data-mode="nikud">
+        Letters + nikud
+      </button>
+      <button type="button" class="mode-btn" role="tab" id="btn-mode-letters" aria-selected="false" data-mode="letters">
+        Letters only
+      </button>
+    </div>
+
+    <main class="card-area" aria-live="polite">
+      <div class="card" id="card">
+        <div class="card-hebrew" id="card-display" lang="he" dir="rtl">א</div>
+        <div class="card-label" id="card-label">Aleph</div>
+      </div>
+      <p class="card-meta" id="card-meta">Card <span id="card-index">1</span> of <span id="card-total">1</span></p>
+    </main>
+
+    <div class="controls">
+      <button type="button" class="btn btn-primary" id="btn-speak" aria-label="Play pronunciation">
+        ▶ Play sound
+      </button>
+      <button type="button" class="btn btn-secondary" id="btn-next" aria-label="Next card">
+        Next →
+      </button>
+      <button type="button" class="btn btn-ghost" id="btn-shuffle" aria-label="Shuffle deck">
+        Shuffle
+      </button>
+    </div>
+
+    <p class="speech-note" id="speech-note" hidden></p>
+
+    <footer class="footer">
+      <p>Tap “Play sound” to hear pronunciation (Web Speech). Works best in Chrome/Edge/Safari with Hebrew voices.</p>
+    </footer>
+  </div>
+
+  <script src="./data/hebrew.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
