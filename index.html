@@ -6,7 +6,7 @@
   <title>Otiot — Hebrew letters practice</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@400;600;700&family=Varela+Round&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
@@ -14,6 +14,7 @@
     <header class="header">
       <h1 class="title">אוֹתִיּוֹת</h1>
       <p class="subtitle">Practice Hebrew letters and nikud</p>
+      <p class="score" aria-live="polite">Score: <span id="score-value">0</span></p>
     </header>
 
     <div class="mode-toggle" role="tablist" aria-label="Practice mode">
@@ -30,6 +31,7 @@
 
     <main class="card-area" aria-live="polite">
       <div class="card" id="card">
+        <div class="card-emoji is-hidden" id="card-emoji" aria-hidden="true"></div>
         <div class="card-hebrew" id="card-display" lang="he" dir="rtl">א</div>
         <div class="card-label is-hidden" id="card-label">Aleph</div>
         <div class="card-translit is-hidden" id="card-translit"></div>
@@ -49,6 +51,16 @@
       </button>
       <button type="button" class="btn btn-ghost" id="btn-shuffle" aria-label="Shuffle deck">
         Shuffle
+      </button>
+    </div>
+
+    <div class="parent-row" aria-label="Parent scoring">
+      <span class="parent-label">Parent:</span>
+      <button type="button" class="btn btn-thumb btn-thumb-up" id="btn-correct" aria-label="Correct, add 5 points" disabled>
+        👍 Correct (+5)
+      </button>
+      <button type="button" class="btn btn-thumb btn-thumb-down" id="btn-wrong" aria-label="Incorrect" disabled>
+        👎 Not yet
       </button>
     </div>
 

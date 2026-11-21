@@ -2,10 +2,12 @@
   'use strict';
 
   const state = {
-    mode: 'nikud', // 'nikud' | 'letters'
+    mode: 'nikud', // 'nikud' | 'letters' | 'words'
     deck: [],
     index: 0,
     revealed: false,
+    score: 0,
+    scoredForCard: false,
   };
 
   function shuffleArray(arr) {
@@ -42,12 +44,18 @@
     const displayEl = document.getElementById('card-display');
     const labelEl = document.getElementById('card-label');
     const translitEl = document.getElementById('card-translit');
+    const emojiEl = document.getElementById('card-emoji');
     const indexEl = document.getElementById('card-index');
     const totalEl = document.getElementById('card-total');
     const btnSpeak = document.getElementById('btn-speak');
     const btnNext = document.getElementById('btn-next');
     const btnReveal = document.getElementById('btn-reveal');
+    const btnCorrect = document.getElementById('btn-correct');
+    const btnWrong = document.getElementById('btn-wrong');
     const cardEl = document.getElementById('card');
+    const scoreEl = document.getElementById('score-value');
+
+    if (scoreEl) scoreEl.textContent = String(state.score);
 
     if (!card) {
       displayEl.textContent = '—';
@@ -57,16 +65,27 @@
         translitEl.textContent = '';
         translitEl.classList.add('is-hidden');
       }
-      if (cardEl) cardEl.classList.remove('card--words');
+      if (emojiEl) {
+        emojiEl.textContent = '';
+        emojiEl.classList.add('is-hidden');
+      }
+      if (cardEl) cardEl.classList.remove('card--words', 'is-animating');
       indexEl.textContent = '0';
       totalEl.textContent = '0';
       btnSpeak.disabled = true;
       btnNext.disabled = true;
       btnReveal.disabled = true;
+      if (btnCorrect) btnCorrect.disabled = true;
+      if (btnWrong) btnWrong.disabled = true;
       return;
     }
 
     displayEl.textContent = card.display;
+    if (emojiEl) {
+      const showEmoji = card.mode === 'words' && card.emoji && state.revealed;
+      emojiEl.textContent = showEmoji ? card.emoji : '';
+      emojiEl.classList.toggle('is-hidden', !showEmoji);
+    }
     if (card.mode === 'words') {
       labelEl.textContent = card.label || '';
       if (translitEl) {
@@ -87,7 +106,22 @@
     totalEl.textContent = String(state.deck.length);
     btnNext.disabled = state.deck.length <= 1;
     btnReveal.disabled = state.revealed;
+    const scoringEnabled = state.revealed && !state.scoredForCard;
+    if (btnCorrect) btnCorrect.disabled = !scoringEnabled;
+    if (btnWrong) btnWrong.disabled = !scoringEnabled;
     updateSpeakButtonState();
+  }
+
+  function animateCardSwap() {
+    const cardEl = document.getElementById('card');
+    if (!cardEl) return;
+    cardEl.classList.remove('is-animating');
+    // force reflow to restart animation
+    void cardEl.offsetWidth;
+    cardEl.classList.add('is-animating');
+    window.setTimeout(function () {
+      cardEl.classList.remove('is-animating');
+    }, 260);
   }
 
   function updateSpeakButtonState() {
@@ -105,8 +139,10 @@
     state.deck = buildDeck(mode);
     state.index = 0;
     state.revealed = false;
+    state.scoredForCard = false;
     render();
     updateModeButtons();
+    animateCardSwap();
   }
 
   function updateModeButtons() {
@@ -134,7 +170,9 @@
       state.index = 0;
     }
     state.revealed = false;
+    state.scoredForCard = false;
     render();
+    animateCardSwap();
   }
 
   function shuffleDeck() {
@@ -144,7 +182,9 @@
     state.deck = shuffleArray(state.deck);
     state.index = 0;
     state.revealed = false;
+    state.scoredForCard = false;
     render();
+    animateCardSwap();
   }
 
   function speakCurrent() {
@@ -197,6 +237,17 @@
     document.getElementById('btn-speak').addEventListener('click', speakCurrent);
     document.getElementById('btn-reveal').addEventListener('click', function () {
       state.revealed = true;
+      render();
+    });
+    document.getElementById('btn-correct').addEventListener('click', function () {
+      if (!state.revealed || state.scoredForCard) return;
+      state.score += 5;
+      state.scoredForCard = true;
+      render();
+    });
+    document.getElementById('btn-wrong').addEventListener('click', function () {
+      if (!state.revealed || state.scoredForCard) return;
+      state.scoredForCard = true;
       render();
     });
     document.getElementById('btn-next').addEventListener('click', nextCard);
